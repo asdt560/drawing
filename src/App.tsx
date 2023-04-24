@@ -1,13 +1,11 @@
 import React from 'react';
 import './App.css';
-import Toolbar from './components/Toolbar';
 import Canvas from './components/Canvas';
 
 function App() {
   return (
     <div className="App">
-      <Toolbar />
-      <Canvas />
+      <Canvas height={500} width={500} />
     </div>
   );
 }
