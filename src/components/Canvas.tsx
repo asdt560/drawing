@@ -19,15 +19,16 @@ const Canvas = (props : CanvasProps) => {
       context.clearRect(0, 0, props.width, props.height);
     }
   }
-  let isPainting = false;
-  let lineWidth = 5;
-  let startX = 0;
-  let startY = 0;
+  let isPainting : boolean = false;
+  let lineWidth : number = 5;
+  let brushShape : CanvasLineCap = 'round';
   let color = '#000000';
+  let shadowBlur : number = 0
+  let shadowColor : string = '#000000';
+  let shadowX : number = 0;
+  let shadowY : number = 0;
   const startDraw = (e : any) => {
     isPainting = true;
-    startX = e.clientX;
-    startY = e.clientY;
   }
   const draw = (e : any) => {
     if(!isPainting) {
@@ -35,8 +36,13 @@ const Canvas = (props : CanvasProps) => {
     }
 
     context.lineWidth = lineWidth;
-    context.lineCap = 'round';
+    context.lineCap = brushShape;
+    context.lineJoin = 'round';
     context.strokeStyle = color;
+    context.shadowBlur = shadowBlur;
+    context.shadowColor = shadowColor;
+    context.shadowOffsetX = shadowX;
+    context.shadowOffsetY = shadowY;
     let canvasOffsetX = canvasRef?.current?.offsetLeft as number;
     let canvasOffsetY = canvasRef?.current?.offsetTop as number;
     context.lineTo(e.clientX - canvasOffsetX, e.clientY - canvasOffsetY);
@@ -61,6 +67,14 @@ const Canvas = (props : CanvasProps) => {
           }}
         />
         <input 
+          type="color"
+          aria-label="shadow-color"
+          id="shadowcolor"
+          onChange={(e) => {
+            shadowColor = e.target.value;
+          }}
+        />
+        <input 
           type="number" 
           defaultValue={5}
           aria-label="linewidth" 
@@ -70,6 +84,45 @@ const Canvas = (props : CanvasProps) => {
             lineWidth = parseInt(e.target.value);
           }}
         />
+        <input 
+          type="number" 
+          defaultValue={0}
+          aria-label="shadowblur" 
+          id="shadowblur"
+          min="0"
+          onChange={(e) => {
+            shadowBlur = parseInt(e.target.value);
+          }}
+        />
+        <input 
+          type="number" 
+          defaultValue={0}
+          aria-label="shadow-X" 
+          id="shadowX"
+          min="0"
+          onChange={(e) => {
+            shadowX = parseInt(e.target.value);
+          }}
+        />
+        <input 
+          type="number" 
+          defaultValue={0}
+          aria-label="shadow-Y" 
+          id="shadowY"
+          min="0"
+          onChange={(e) => {
+            shadowY = parseInt(e.target.value);
+          }}
+        />
+        <select
+          title="brush-shape"
+          onChange={(e) => {
+            brushShape= e.target.value.toLowerCase() as CanvasLineCap;
+          }}
+        >
+          <option id="shape1">Round</option>
+          <option id="shape2">Square</option>
+        </select>
         <button type="button" id="reset" onClick={handleReset}>Reset</button>
       </div>
       <canvas 
