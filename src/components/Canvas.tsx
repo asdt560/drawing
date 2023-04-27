@@ -7,9 +7,9 @@ const Canvas = () => {
 
   useEffect(() => {
     const canvas = canvasRef.current as HTMLCanvasElement;
-    canvas.style.width ='100%';
-    canvas.style.height='100%';
-    canvas.width  = canvas.offsetWidth;
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
     const context: CanvasRenderingContext2D = canvas.getContext("2d") as CanvasRenderingContext2D;
     contextRef.current = context;
@@ -17,9 +17,9 @@ const Canvas = () => {
 
   const handleReset = () => {
     if (contextRef.current) {
-      let canvasOffsetX = canvasRef?.current?.offsetLeft as number;
-      let canvasOffsetY = canvasRef?.current?.offsetTop as number;
-      contextRef.current.clearRect(0, 0, canvasOffsetX, canvasOffsetY);
+      let width = contextRef.current.canvas.width;
+      let height = contextRef.current.canvas.height;
+      contextRef.current.clearRect(0, 0, width, height);
     }
   }
   let isPainting: boolean = false;
@@ -30,11 +30,27 @@ const Canvas = () => {
   let shadowColor: string = '#000000';
   let shadowX: number = 0;
   let shadowY: number = 0;
-  const startDraw = (e: any) => {
+  let drawShape = false;
+  let radius: number = 0;
+  const shapeDrawer = (e: any) => {
+    if(!drawShape){
+      return;
+    }
+    let context = contextRef.current as CanvasRenderingContext2D;
+    let canvasOffsetX = canvasRef?.current?.offsetLeft as number;
+    let canvasOffsetY = canvasRef?.current?.offsetTop as number;
+    context.beginPath();
+    context.fillStyle = "#000000";
+    context.arc(e.clientX - canvasOffsetX, e.clientY - canvasOffsetY, radius, 0, 2 * Math.PI);
+    context.stroke();
+    context.closePath();
+    drawShape = false;
+  }
+  const startDraw = () => {
     isPainting = true;
   }
   const draw = (e: any) => {
-    if (!isPainting) {
+    if (!isPainting || drawShape) {
       return;
     }
     let context = contextRef.current as CanvasRenderingContext2D;
@@ -127,11 +143,31 @@ const Canvas = () => {
           <option id="shape1">Round</option>
           <option id="shape2">Square</option>
         </select>
+        <details>
+          <summary>Draw Circle Shape</summary>
+          <input
+            type="number"
+            defaultValue={0}
+            aria-label="circle-radius"
+            id="circleradius"
+            min="0"
+            onChange={(e) => {
+              radius = parseInt(e.target.value);
+            }}
+          />
+          <button type="button" id="drawcircle" onClick={() => {
+            drawShape = true;
+          }}
+          >
+            Draw Circle
+          </button>
+        </details>
         <button type="button" id="reset" onClick={handleReset}>Reset</button>
       </div>
       <div className="canvasholder">
         <canvas
           ref={canvasRef}
+          onClick={shapeDrawer}
           onMouseDown={startDraw}
           onMouseMove={draw}
           onMouseUp={finishDraw}
