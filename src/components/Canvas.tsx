@@ -74,10 +74,26 @@ const Canvas = () => {
     context.stroke();
     context.beginPath();
   }
+  const bkgColor = (e: any) => {
+    let context = contextRef.current as CanvasRenderingContext2D;
+    if (context) {
+      let width = context.canvas.width;
+      let height = context.canvas.height;
+      context.fillStyle = e.target.value;
+      context.fillRect(0, 0, width, height);
+    }
+  }
   return (
     <div className="container">
       <div className="toolbar">
         <h1>Draw-App</h1>
+        <input
+          type="color"
+          aria-label="bkgcolor"
+          id="bkgcolor"
+          defaultValue={"#ffffff"}
+          onChange={bkgColor}
+        />
         <input
           type="color"
           aria-label="color"
