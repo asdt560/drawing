@@ -1,4 +1,4 @@
-import { useRef, useEffect, MouseEventHandler } from "react";
+import { useRef, useEffect } from "react";
 
 const Canvas = () => {
 
@@ -33,7 +33,7 @@ const Canvas = () => {
   let drawShape = false;
   let radius: number = 0;
   const shapeDrawer = (e: any) => {
-    if(!drawShape){
+    if (!drawShape) {
       return;
     }
     let context = contextRef.current as CanvasRenderingContext2D;
@@ -103,14 +103,6 @@ const Canvas = () => {
           }}
         />
         <input
-          type="color"
-          aria-label="shadow-color"
-          id="shadowcolor"
-          onChange={(e) => {
-            shadowColor = e.target.value;
-          }}
-        />
-        <input
           type="number"
           defaultValue={5}
           aria-label="linewidth"
@@ -120,36 +112,47 @@ const Canvas = () => {
             lineWidth = parseInt(e.target.value);
           }}
         />
-        <input
-          type="number"
-          defaultValue={0}
-          aria-label="shadowblur"
-          id="shadowblur"
-          min="0"
-          onChange={(e) => {
-            shadowBlur = parseInt(e.target.value);
-          }}
-        />
-        <input
-          type="number"
-          defaultValue={0}
-          aria-label="shadow-X"
-          id="shadowX"
-          min="0"
-          onChange={(e) => {
-            shadowX = parseInt(e.target.value);
-          }}
-        />
-        <input
-          type="number"
-          defaultValue={0}
-          aria-label="shadow-Y"
-          id="shadowY"
-          min="0"
-          onChange={(e) => {
-            shadowY = parseInt(e.target.value);
-          }}
-        />
+        <details>
+          <summary>Shadow</summary>
+          <input
+            type="color"
+            aria-label="shadow-color"
+            id="shadowcolor"
+            onChange={(e) => {
+              shadowColor = e.target.value;
+            }}
+          />
+          <input
+            type="number"
+            defaultValue={0}
+            aria-label="shadowblur"
+            id="shadowblur"
+            min="0"
+            onChange={(e) => {
+              shadowBlur = parseInt(e.target.value);
+            }}
+          />
+          <input
+            type="number"
+            defaultValue={0}
+            aria-label="shadow-X"
+            id="shadowX"
+            min="0"
+            onChange={(e) => {
+              shadowX = parseInt(e.target.value);
+            }}
+          />
+          <input
+            type="number"
+            defaultValue={0}
+            aria-label="shadow-Y"
+            id="shadowY"
+            min="0"
+            onChange={(e) => {
+              shadowY = parseInt(e.target.value);
+            }}
+          />
+        </details>
         <select
           title="brush-shape"
           onChange={(e) => {
