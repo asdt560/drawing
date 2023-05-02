@@ -48,9 +48,6 @@ const Canvas = () => {
   }
   const startDraw = () => {
     isPainting = true;
-    if (!isPainting || drawShape) {
-      return;
-    }
   }
   const draw = (e: any) => {
     if (!isPainting || drawShape) {
