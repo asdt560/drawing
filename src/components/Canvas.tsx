@@ -48,6 +48,9 @@ const Canvas = () => {
   }
   const startDraw = () => {
     isPainting = true;
+    if (!isPainting || drawShape) {
+      return;
+    }
   }
   const draw = (e: any) => {
     if (!isPainting || drawShape) {
@@ -69,6 +72,9 @@ const Canvas = () => {
   }
 
   const finishDraw = (e: any) => {
+    if (!isPainting || drawShape) {
+      return;
+    }
     isPainting = false;
     let context = contextRef.current as CanvasRenderingContext2D;
     context.stroke();
