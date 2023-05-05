@@ -49,11 +49,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  padding: 2%;
 }
 
 .canvasholder{
   border: 1px solid black;
-  margin: 2%;
+  margin-top: 2%;
+  margin-bottom: 2%;
   height: 95%;
   width: 95%;
   align-self: center;
